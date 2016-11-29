@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+	<appender name="A1" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>[%-5p] %d [%t] [%c:%L] - %m%n</pattern>
+		</encoder>
+	</appender>
+	<root level="${app.log.level}">
+		<appender-ref ref="A1" />
+	</root>
+</configuration>
