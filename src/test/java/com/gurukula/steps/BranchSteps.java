@@ -45,4 +45,62 @@ public class BranchSteps {
 	}
 	
 	
+	@Step
+	public void viewNewBranch(String checkBranchName, String checkBranchCode){
+		branchPage.viewBranch(checkBranchName, checkBranchCode);
+	}
+	
+	@Step
+	public void verifyViewBranch(String CheckBranchName, String CheckBranchCode){
+		Assert.assertEquals(CheckBranchName, branchPage.getCheckBranchName());
+		Assert.assertEquals(CheckBranchCode, branchPage.getCheckBranchCode());
+	}
+	
+	@Step
+	public void viewBranchNonEditable(String CheckBranchName, String CheckBranchCode){
+		Assert.assertTrue("CheckBranchName NonEditable", branchPage.getCheckBranchNameNonEditable());
+		Assert.assertTrue("CheckBranchCode NonEditable", branchPage.getCheckBranchCodeNonEditable());
+	}
+	
+	@Step
+	public void isBranchDetailsAvailable(String CheckBranchName, String CheckBranchCode) {
+		Assert.assertTrue("Expected branch name is not available", branchPage.verifyBranch(CheckBranchName, CheckBranchCode));
+	}
+	
+	@Step
+	public void editBranchDetails(String editName, String editCode, String newName){
+		branchPage.newEditBranch(editName, editCode, newName);
+	}
+	
+	@Step
+	public void saveEditBranch(){
+		branchPage.editBranchBtn();
+	}
+	
+	@Step
+	public void deleteNewBranch(String CheckBranchName, String CheckBranchCode){
+		branchPage.deleteBranch(CheckBranchName,CheckBranchCode);
+	}
+	
+	@Step
+	public void deleteBranch(){
+		branchPage.deleteBranchBtn();
+	}
+	
+	@Step
+	public void verifyNewDeleteBranch(String CheckBranchName, String CheckBranchCode){
+		Assert.assertTrue("Expected branch details is not deleted", branchPage.verifyDeletedBranchName(CheckBranchName, CheckBranchCode));
+	}
+	
+	@Step
+	public void searchBranchDetails(String editName){
+		branchPage.newSearchBranch(editName);
+	}
+	
+	@Step
+	public void searchBranch(){
+		branchPage.searchBranchBtn();
+	}
+	
+	
 }

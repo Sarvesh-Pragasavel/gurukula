@@ -3,26 +3,36 @@ Feature:  Gurukula application is used to maintain 'Branches' entity - Id, branc
 		  User navigate to Branch via Entities menu.
 		  
 Background:
-Given User logged in as admin "admin" "admin"
-And user selects branch page under Entities Menu
+	Given User logged in as admin "admin" "admin"
+	And user selects branch page under Entities Menu
 
-Scenario: 002a- Create a new Branch information 
-When user fill in branch name as "GURUKULA"
-And user fill in branch code as "GURUAMS"
-Then new branch is created sucessfully
+	
+	Scenario: 002a- Create a new Branch information 
+		When user fill in branch name as "GURUKULA"
+		And user fill in branch code as "GURUAMS"
+		Then new branch is created sucessfully
 
-#Scenario: 002b- View Branch information 
-#When user tries to View Branch
-#Then respective Branch ID returns with Name and Code value in non-editable format
-
-#Scenario: 002c- Edit Branch information 
-#When user tries to Edit Branch
-#Then respective Branch ID returns with Name and Code value in editable format
-#
-#Scenario: 002d- Delete Branch information 
-#When user tries to Delete Branch
-#Then respective Branch ID Name and Code values are sucessfully deleted from Branches
-#
-#Scenario: 002e- Query Branch information 
-#When user Query Branch
-#Then respective Branch ID alone returns with Name and Code value in Branches
+	Scenario: 002b- View Branch information 
+		And branch name "GURUKULA" , branch code "GURUAMS" is displayed in Branch page
+		When user clicks on view branch button
+		Then the view page displays the branch information for the selected branch
+		And the branch view page should not be editable
+		
+	Scenario: 002c- Edit Branch information
+		And branch name "GURUKULA" , branch code "GURUAMS" is displayed in Branch page
+		When user tries to edit branch information of "GURUKULA" and "GURUAMS" to "BREPORT"
+		Then edited Branch "BREPORT" "GURUAMS" returns in Name and Code
+	
+	
+	Scenario: 002d- Delete Branch information 
+		And branch name "BREPORT" , branch code "GURUAMS" is displayed in Branch page
+		When user clicks on delete button on branch
+		Then branch information deleted successfully
+	
+	
+	Scenario: 002e- Search a Branch information 
+		When user fill in branch name as "GURUKULA"
+		And user fill in branch code as "GURUAMS"
+		Then new branch is created sucessfully
+		When user tries to search branch information of "GURUKULA"
+		Then searched Branch "GURUKULA" "GURUAMS" returns in Name and Code

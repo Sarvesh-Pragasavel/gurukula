@@ -155,12 +155,12 @@ public class StaffPage extends PageObject{
 		return viewedStaffBranch.getAttribute("value");
 	}
 	
-	public void getCheckStaffNameNonEditable(){
-		viewedStaffName.getAttribute("readonly");
+	public boolean getCheckStaffNameNonEditable(){
+		return viewedStaffName.getAttribute("readonly").equals("true");
 	}
 	
-	public void getCheckStaffBranchNonEditable(){
-		viewedStaffBranch.getAttribute("readonly");
+	public boolean getCheckStaffBranchNonEditable(){
+		return viewedStaffBranch.getAttribute("readonly").equals("true");
 	}
 	
 	public void newEditStaff(String editName, String editBranch, String newName) {
@@ -227,11 +227,6 @@ public class StaffPage extends PageObject{
 	public void searchStaffBtn(){
 		searchStaffButton.click();
 	}
-	
-	
-//	public String getCheckNewStaffId(){ 
-//		return deleteStaffId.getAttribute("value");
-//	}
 	
 	/**
 	 * Method to pagination a new staff information.

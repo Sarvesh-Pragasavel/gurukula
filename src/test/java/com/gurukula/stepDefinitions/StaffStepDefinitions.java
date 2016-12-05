@@ -65,7 +65,7 @@ public class StaffStepDefinitions {
 	@When("^user tries to edit Staff information of \"(.*?)\" and \"(.*?)\" to \"(.*?)\"$")
 	public void user_tries_to_edit_Staff_information_of_and_to(String name, String branch, String newName) throws Throwable {
 		staffStep.editStaffDetails(name, branch, newName);
-		staffStep.saveeditStaff();
+		staffStep.saveEditStaff();
 	}
 	
 	@Then("^edited Staff \"(.*?)\" \"(.*?)\" returns in Name and Branch$")

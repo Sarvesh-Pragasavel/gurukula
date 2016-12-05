@@ -6,7 +6,6 @@ Background:
 	Given User logged in as admin "admin" "admin"
 	And user selects staff page under Entities Menu
 	
-
 	Scenario: 003a- Create a new Staff information 
 		When user fill in staff name as "TESTER" and branch as "GURUKULA"
 		Then new staff information created successfully
@@ -28,7 +27,8 @@ Background:
 		Then staff information deleted successfully
 	
 	Scenario: 003e- Search a Staff information 
-		And staff name "TESTER" , branch name "GURUKULA" is displayed in Staff page
+		When user fill in staff name as "TESTER" and branch as "GURUKULA"
+		Then new staff information created successfully
 		When user tries to search Staff information of "TESTER"
 		Then searched Staff "TESTER" "GURUKULA" returns in Name and Branch
 	

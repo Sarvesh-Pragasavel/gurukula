@@ -52,8 +52,8 @@ public class StaffSteps {
 	
 	@Step
 	public void viewStaffNonEditable(String CheckStaffName, String CheckStaffBranch){
-		Assert.assertNotNull(CheckStaffName);
-		Assert.assertNotNull(CheckStaffBranch);
+		Assert.assertTrue("CheckStaffName NonEditable", staffPage.getCheckStaffNameNonEditable());
+		Assert.assertTrue("CheckStaffBranch NonEditable", staffPage.getCheckStaffBranchNonEditable());
 	}
 	
 	@Step
@@ -62,7 +62,7 @@ public class StaffSteps {
 	}
 	
 	@Step
-	public void saveeditStaff(){
+	public void saveEditStaff(){
 		staffPage.editStaffBtn();
 	}
 	
