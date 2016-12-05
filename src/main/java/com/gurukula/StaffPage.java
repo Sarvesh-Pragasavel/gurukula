@@ -1,13 +1,17 @@
 package com.gurukula;
 
-import net.serenitybdd.core.pages.PageObject;
-import net.serenitybdd.core.pages.WebElementFacade;
-import net.thucydides.core.annotations.WhenPageOpens;
+import java.util.List;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import net.serenitybdd.core.annotations.findby.By;
+import net.serenitybdd.core.pages.PageObject;
+import net.serenitybdd.core.pages.WebElementFacade;
+import net.thucydides.core.annotations.WhenPageOpens;
+
 
 public class StaffPage extends PageObject{
 	
@@ -32,6 +36,9 @@ public class StaffPage extends PageObject{
 	@FindBy(xpath="//table/tbody/tr[1]/td[2]")
 	WebElement addedStaffName;
 	
+	@FindBy(xpath = "//table[@class = 'table table-striped']")
+	WebElementFacade table;
+	
 	@FindBy(xpath="//table/tbody/tr[1]/td[3]")
 	WebElement addedStaffBranch;
 	
@@ -44,21 +51,14 @@ public class StaffPage extends PageObject{
 	@FindBy(xpath="//table/tbody/tr[2]/td[2]/input")
 	WebElement viewedStaffBranch;
 	
-
-	@FindBy(css=".btn.btn-primary.btn-sm")
-	WebElement editStaffButton;
-	
 	@FindBy(xpath="//input[@ng-model='staff.name']")
-	WebElement editStaffName;
+	WebElementFacade editStaffName;
 	
 	@FindBy(xpath="//div[@class='modal-footer']/button[@class='btn btn-primary']")
 	WebElement editNewStaffButton;
 	
 	@FindBy(xpath="//table/tbody/tr[1]/td[2]")
 	WebElement editedStaff;
-	
-
-	
 	
 	@FindBy(xpath="//table/tbody/tr[1]/td[1]/a")
 	WebElement addedStaffId;
@@ -72,8 +72,11 @@ public class StaffPage extends PageObject{
 	@FindBy(xpath="//div[@class='modal-footer']/button[@class='btn btn-danger']")
 	WebElement deleteNewStaffButton;
 	
+	@FindBy(id ="searchQuery")
+	WebElement searchText;
 	
-	
+	@FindBy(css =".btn.btn-info")
+	WebElement searchStaffButton;
 	
 	@FindBy(linkText=">")
 	WebElement nextPage;
@@ -107,11 +110,8 @@ public class StaffPage extends PageObject{
 		WebDriverWait wait = new WebDriverWait(this.getDriver(), 15);
 		wait.until(ExpectedConditions.elementToBeClickable(newStaff)); 
 		newStaff.click();
-		System.out.println("I am inside new Staff");
 		staffName.sendKeys(name);
 		staffBranchDropDown.selectByVisibleText(branch);
-		System.out.println("Staff Name"+name);
-		System.out.println("Staff Branch"+branch);
 	}
 	
 	public void saveStaffBtn(){
@@ -120,12 +120,13 @@ public class StaffPage extends PageObject{
 		newStaffButton.click();
 	}
 	
-	public String getStaffName(){ 
-		return addedStaffName.getText();
-	}
-	
-	public String getStaffBranch(){ 
-		return addedStaffBranch.getText();
+	public boolean verifyStaff(String savedStaffName, String savedStaffBranch) {
+		boolean flag = false;
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		for(int i = 0; i < rows.size() && !flag; i++) {
+			flag = rows.get(i).getText().contains(savedStaffName) && rows.get(i).getText().contains(savedStaffBranch);
+		}
+		return flag;
 	}
 	
 	
@@ -135,8 +136,15 @@ public class StaffPage extends PageObject{
 	 * @param branch
 	 */
 	
-	public void viewStaff(){
-		viewStaffButton.click();
+	public void viewStaff(String CheckStaffName, String CheckStaffBranch){
+		boolean staffDetailsPresent = false;
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		for(int i = 0; i < rows.size() && !staffDetailsPresent; i++) {
+			if(rows.get(i).getText().contains(CheckStaffName) && rows.get(i).getText().contains(CheckStaffBranch)) {
+				staffDetailsPresent = true;
+				rows.get(i).findElement(By.cssSelector(".btn.btn-info.btn-sm")).click();
+			}
+		}
 	}
 	
 	public String getCheckStaffName(){ 
@@ -155,58 +163,75 @@ public class StaffPage extends PageObject{
 		viewedStaffBranch.getAttribute("readonly");
 	}
 	
-	
-	/**
-	 * Method to edit a new staff information by passing name and branch details.
-	 * @param name
-	 * @param branch
-	 */
-	
-	public void editStaff(String CheckStaffName, String CheckBranchName){
-		editStaffButton.click();
-	}
-	
-	public void newEditStaff(String editName, String editBranch){ 
-		editStaffButton.click();
-		//editStaffName.clear();
-		editStaffName.sendKeys(editName);
+	public void newEditStaff(String editName, String editBranch, String newName) {
+		boolean staffDetailsPresent = false;
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		for(int i = 0; i < rows.size() && !staffDetailsPresent; i++) {
+			if(rows.get(i).getText().contains(editName) && rows.get(i).getText().contains(editBranch)) {
+				staffDetailsPresent = true;
+				rows.get(i).findElement(By.cssSelector(".btn.btn-primary.btn-sm")).click();
+			}
+		}
+		typeInto(editStaffName.findBy(By.xpath("//input[@ng-model='staff.name']")), newName);
 	}
 	
 	public void editStaffBtn(){
 		editNewStaffButton.click();
 	}
 	
-	public void checkEditedStaff(String editedName, String editedBranch){ 
-		editedStaff.getText().compareTo(editedName);
+	public boolean verifyEditedStaffName(String editedName, String editedBranch) {
+		boolean staffDetailsPresent = false;
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		for(int i = 0; i < rows.size() && !staffDetailsPresent; i++) {
+			staffDetailsPresent = rows.get(i).getText().contains(editedName) && rows.get(i).getText().contains(editedBranch);
+		}
+		return staffDetailsPresent;
 	}
-
+	
 	/**
 	 * Method to delete a new staff information by passing name and branch details.
 	 * @param name
 	 * @param branch
 	 */
 	
-	public String getDeleteStaffId(){ 
-		return addedStaffId.getText();
+	public void deleteStaff(String CheckStaffName, String CheckStaffBranch){
+		boolean staffDetailsPresent = false;
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		for(int i = 0; i < rows.size() && !staffDetailsPresent; i++) {
+			if(rows.get(i).getText().contains(CheckStaffName) && rows.get(i).getText().contains(CheckStaffBranch)) {
+				staffDetailsPresent = true;
+				rows.get(i).findElement(By.cssSelector(".btn.btn-danger.btn-sm")).click();
+			}
+		}
 	}
-	
-	public void deleteStaff(){
-		deleteStaffButton.click();
-	}
-	
-	public String getCheckStaffId(){ 
-		return deleteStaffId.getAttribute("value");
-	}
-	
 	
 	public void deleteStaffBtn(){
 		deleteNewStaffButton.click();
 	}
 	
-	
-	public String getCheckNewStaffId(){ 
-		return deleteStaffId.getAttribute("value");
+	public boolean verifyDeletedStaffName(String CheckStaffName, String CheckStaffBranch) {
+		boolean staffDetailsNotPresent = false;
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		for(int i = 0; i < rows.size() && !staffDetailsNotPresent; i++) {
+			staffDetailsNotPresent = rows.get(i).getText().contains(CheckStaffName) && rows.get(i).getText().contains(CheckStaffBranch);
+		}
+		return staffDetailsNotPresent;
 	}
+	
+	
+	public void newSearchStaff(String editName){ 
+		searchText.sendKeys(editName);
+	}
+	
+	
+	public void searchStaffBtn(){
+		searchStaffButton.click();
+	}
+	
+	
+//	public String getCheckNewStaffId(){ 
+//		return deleteStaffId.getAttribute("value");
+//	}
 	
 	/**
 	 * Method to pagination a new staff information.

@@ -40,15 +40,8 @@ public class StaffSteps {
 	}
 	
 	@Step
-	public void verifyNewStaff(String savedStaffName, String savedStaffBranch){
-		Assert.assertEquals(savedStaffName, staffPage.getStaffName());
-		Assert.assertEquals(savedStaffBranch, staffPage.getStaffBranch());
-	}
-	
-	
-	@Step
-	public void viewNewStaff(){
-		staffPage.viewStaff();
+	public void viewNewStaff(String CheckStaffName, String CheckStaffBranch){
+		staffPage.viewStaff(CheckStaffName, CheckStaffBranch);
 	}
 	
 	@Step
@@ -63,20 +56,9 @@ public class StaffSteps {
 		Assert.assertNotNull(CheckStaffBranch);
 	}
 	
-	/**
-	 * 
-	 * @param CheckStaffName
-	 * @param CheckStaffBranch
-	 */
-
 	@Step
-	public void editNewStaff(String CheckStaffName, String CheckStaffBranch){
-		staffPage.editStaff(CheckStaffName, CheckStaffBranch);
-	}
-	
-	@Step
-	public void editStaff(String editName, String editBranch){
-		staffPage.newEditStaff(editName, editBranch);
+	public void editStaffDetails(String editName, String editBranch, String newName){
+		staffPage.newEditStaff(editName, editBranch, newName);
 	}
 	
 	@Step
@@ -85,28 +67,13 @@ public class StaffSteps {
 	}
 	
 	@Step
-	public void verifyEditedStaff(String editedName, String editedBranch){
-		staffPage.checkEditedStaff(editedName, editedBranch);
-	}
-	
-
-	/**
-	 * 
-	 * @param staffID
-	 */
-	@Step
-	public void verifyNewStaffId(int staffID){
-		Assert.assertEquals(String.valueOf(staffID), staffPage.getDeleteStaffId());
+	public void isStaffDetailsAvailable(String editedName, String editedBranch) {
+		Assert.assertTrue("Expected staff name is not available", staffPage.verifyEditedStaffName(editedName, editedBranch));
 	}
 	
 	@Step
-	public void deleteNewStaff(){
-		staffPage.deleteStaff();
-	}
-	
-	@Step
-	public void verifyDeleteStaff(String CheckStaffId){
-		Assert.assertEquals(CheckStaffId, staffPage.getCheckStaffId());
+	public void deleteNewStaff(String CheckStaffName, String CheckStaffBranch){
+		staffPage.deleteStaff(CheckStaffName,CheckStaffBranch);
 	}
 	
 	@Step
@@ -114,12 +81,20 @@ public class StaffSteps {
 		staffPage.deleteStaffBtn();
 	}
 	
-	
 	@Step
-	public void verifyNewDeleteStaff(String CheckStaffId){
-		Assert.assertEquals(CheckStaffId, staffPage.getCheckNewStaffId());
+	public void verifyNewDeleteStaff(String CheckStaffName, String CheckStaffBranch){
+		Assert.assertTrue("Expected staff details is not deleted", staffPage.verifyDeletedStaffName(CheckStaffName, CheckStaffBranch));
 	}
 	
+	@Step
+	public void searchStaffDetails(String editName){
+		staffPage.newSearchStaff(editName);
+	}
+	
+	@Step
+	public void searchStaff(){
+		staffPage.searchStaffBtn();
+	}
 	
 	@Step
 	public void nextPage(){

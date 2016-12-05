@@ -36,7 +36,7 @@ public class StaffStepDefinitions {
 	
 	@Then("^new staff information created successfully$")
 	public void name_and_branch_are_sucessfuly_added_to_Staffs() {
-		staffStep.verifyNewStaff(Serenity.sessionVariableCalled("StaffName").toString(),Serenity.sessionVariableCalled("BranchName").toString());
+		staffStep.isStaffDetailsAvailable(Serenity.sessionVariableCalled("StaffName").toString(),Serenity.sessionVariableCalled("BranchName").toString());
 	}
 	
 	
@@ -44,12 +44,12 @@ public class StaffStepDefinitions {
 	public void already_has_added_Staff_information(String checkName, String checkBranch) {
 		Serenity.setSessionVariable("CheckStaffName").to(checkName);
 		Serenity.setSessionVariable("CheckStaffBranch").to(checkBranch);
-		staffStep.verifyNewStaff(checkName, checkBranch);
+		staffStep.isStaffDetailsAvailable(checkName, checkBranch);
 	}
 	
 	@When("^user clicks on view button$")
 	public void user_clicks_on_view_button() {
-		staffStep.viewNewStaff();
+		staffStep.viewNewStaff(Serenity.sessionVariableCalled("CheckStaffName").toString(),Serenity.sessionVariableCalled("CheckStaffBranch").toString());
 	}
 	
 	@Then("^the view page displays the staff information for the selected staff$")
@@ -61,67 +61,40 @@ public class StaffStepDefinitions {
 	public void the_page_should_not_be_editable() {
 		staffStep.viewStaffNonEditable(Serenity.sessionVariableCalled("CheckStaffName").toString(),Serenity.sessionVariableCalled("CheckStaffBranch").toString());
 	}
-	
-	
-	@When("^user tries to edit Staff information of \"(.*?)\" to \"(.*?)\"$")
-	public void edit_Staff_information(String editBranch, String editName) {
-		staffStep.editStaff(editName, editBranch);
+
+	@When("^user tries to edit Staff information of \"(.*?)\" and \"(.*?)\" to \"(.*?)\"$")
+	public void user_tries_to_edit_Staff_information_of_and_to(String name, String branch, String newName) throws Throwable {
+		staffStep.editStaffDetails(name, branch, newName);
 		staffStep.saveeditStaff();
 	}
 	
 	@Then("^edited Staff \"(.*?)\" \"(.*?)\" returns in Name and Branch$")
-	public void edited_Staff_Details(String editedName, String editedBranch) {
-		staffStep.verifyEditedStaff(editedName,editedBranch);
-	}
-	
-	
-	
-	
-	@Given("^staff id (\\d+) information is present in Staff page$")
-	public void staff_id_1_information_is_present_in_Staff_page(int staffID) {
-		Serenity.setSessionVariable("CheckStaffId").to(staffID);
-		staffStep.verifyNewStaffId(staffID);
+	public void edited_Staff_returns_in_Name_and_Branch(String editedName, String editedBranch) throws Throwable {
+		staffStep.isStaffDetailsAvailable(editedName, editedBranch);
 	}
 	
 	@When("^user clicks on delete button$")
 	public void user_clicks_on_delete_button() {
-		staffStep.deleteNewStaff();
-	}
-	
-	@Then("^the delete page displays the staff id information for the selected staff$")
-	public void delete_Staff_Details() {
-		staffStep.verifyDeleteStaff(Serenity.sessionVariableCalled("CheckStaffId").toString());	
-	}
-	
-	@When("^user deletes the staff information$")
-	public void user_deletes_the_staff_information() {
+		staffStep.deleteNewStaff(Serenity.sessionVariableCalled("CheckStaffName").toString(),Serenity.sessionVariableCalled("CheckStaffBranch").toString());
 		staffStep.deleteStaff();
 	}
 	
 	@Then("^staff information deleted successfully$")
 	public void staff_information_deleted_successfully() {
-		staffStep.verifyNewDeleteStaff(Serenity.sessionVariableCalled("CheckStaffId").toString());
+		staffStep.verifyNewDeleteStaff(Serenity.sessionVariableCalled("CheckStaffName").toString(),Serenity.sessionVariableCalled("CheckStaffBranch").toString());
 	}
 	
-	/*  Search Feature
 	
-	@When("^user enters \"(.*?)\" staff name in query$")
-	public void user_enters_staff_name_in_query (String searchName) {
-		Serenity.setSessionVariable("SearchStaffName").to(searchName);
-		staffStep.verifyNewStaffSearch(searchName);
+	@When("^user tries to search Staff information of \"(.*?)\"$")
+	public void user_tries_to_search_Staff_information_of (String name) {
+		staffStep.searchStaffDetails(name);
+		staffStep.searchStaff();
 	}
 	
-	@When("^user clicks on view button$")
-	public void user_clicks_on_view_button() {
-		staffStep.viewNewStaff();
+	@Then("^searched Staff \"(.*?)\" \"(.*?)\" returns in Name and Branch$")
+	public void searched_Staff_returns_in_Name_and_Branch(String editedName, String editedBranch) throws Throwable {
+		staffStep.isStaffDetailsAvailable(editedName, editedBranch);
 	}
-	
-	@Then("^the view page displays the staff information for the selected staff$")
-	public void viewed_Staff_Details() {
-		staffStep.verifyViewStaff(Serenity.sessionVariableCalled("CheckStaffName").toString(),Serenity.sessionVariableCalled("CheckStaffBranch").toString());	
-	}
-	
-	*/
 	
 	
 	@And("^staff page loaded with (\\d+) staff information$")
