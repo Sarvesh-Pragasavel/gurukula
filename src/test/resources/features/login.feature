@@ -1,5 +1,6 @@
 Feature:  As a product owner I want system to perform login and logout feature for Gurukula application.
 
+
 	Scenario: 001a- Login to Gurukula application as existing User
 		Given User is a member of Gurukula application
 		When user enters user name as "admin" and password as "admin"

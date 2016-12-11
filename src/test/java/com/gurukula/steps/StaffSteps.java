@@ -23,12 +23,6 @@ public class StaffSteps {
 		staffPage.staffLink();
 	}
 	
-	/**
-	 * 
-	 * @param name
-	 * @param branch
-	 */
-	
 	@Step
 	public void newStaff(String name, String branch){
 		staffPage.createStaff(name, branch);

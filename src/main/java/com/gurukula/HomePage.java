@@ -34,6 +34,12 @@ public class HomePage extends PageObject {
 	
 	@FindBy(xpath="//div[2]/div/div[1]")
 	WebElement logoutMessage;
+	
+	@FindBy(linkText="Register a new account")
+	WebElement register;
+	
+	@FindBy(partialLinkText="Register")
+	WebElement registerAM;
 		
 	public void loginLink(){
 		login.click();
@@ -61,6 +67,14 @@ public class HomePage extends PageObject {
 	
 	public String getLogoutMessage(){
 		return logoutMessage.getText();
+	}
+	
+	public void registerLink(){
+		register.click();
+	}
+	
+	public void registerLinkAM(){
+		registerAM.click();
 	}
 
 }

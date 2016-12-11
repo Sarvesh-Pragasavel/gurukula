@@ -89,8 +89,7 @@ public class StaffPage extends PageObject{
 	
 	  @WhenPageOpens
 	  public void waitUntilEntitiesLoad() {
-		  System.out.println("I am waiting for Staff page to load");
-	    $(".dropdown.pointer.ng-scope").waitUntilVisible();
+		  $(".dropdown.pointer.ng-scope").waitUntilVisible();
 	  }
 	
 	public void selectEntities(){

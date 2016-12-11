@@ -27,7 +27,6 @@ public class LoginStepDefinitions {
 		
 		@When("^user enters user name as \"(.*?)\" and password as \"(.*?)\"$")
 		public void user_enters_username(String userName, String password){
-			System.out.println("User Name :"+ userName);
 			Serenity.setSessionVariable("Username").to(userName);
 			loginStep.login(userName, password);
 		}

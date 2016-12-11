@@ -1,10 +1,13 @@
-Feature:  Gurukula application is used to maintain 'Staff' entity - Id, staff name and branch.
-		  User can perform create, udpate, read and delete operation.
+Feature:  As a product owner the user should be able to maintain staff information.
+		  Staff entity contains the following information - Id, staff name and branch.
+		  User can perform CRUD operation.
 		  User navigate to Staff via Entities menu.
+
 
 Background:
 	Given User logged in as admin "admin" "admin"
 	And user selects staff page under Entities Menu
+	
 	
 	Scenario: 003a- Create a new Staff information 
 		When user fill in staff name as "TESTER" and branch as "GURUKULA"

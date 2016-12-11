@@ -37,8 +37,7 @@ public class BranchPage extends PageObject {
 	
 	@FindBy(xpath="//table/tbody/tr[1]/td[3]")
 	WebElement addedBranchCode;
-	
-	
+		
 	@FindBy(xpath = "//table[@class = 'table table-striped']")
 	WebElementFacade table;
 	
@@ -72,7 +71,11 @@ public class BranchPage extends PageObject {
 		branch.click();
 	}
 	
-	
+	/**
+	 * Enter the branch name details to input box in create branch page.
+	 * Wait for 15 seconds to load the branch page.
+	 * @param name
+	 */
 	public void enterBranchName(String name){
 		WebDriverWait wait = new WebDriverWait(this.getDriver(), 15);
 		wait.until(ExpectedConditions.elementToBeClickable(newBranch)); 
